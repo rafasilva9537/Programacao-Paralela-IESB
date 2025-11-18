@@ -64,7 +64,8 @@ int main() {
     // frequências de estatura
     for (double estatura : estaturas) {
         int idx = (int)((estatura - menorEstatura) / intervaloEstatura);
-        if (idx == qtdClasses) idx = qtdClasses - 1; // protege limite superior
+        // protege limite superior, se peso for igual ao maiorPeso
+        if (idx == qtdClasses) idx = qtdClasses - 1;
         freqEst[idx]++;
     }
 
