@@ -62,17 +62,20 @@ int main() {
     vector<int> freqPeso(qtdClasses, 0);
 
     // frequências de estatura
-    for (double estatura : estaturas) {
-        int idx = (int)((estatura - menorEstatura) / intervaloEstatura);
-        // protege limite superior, se peso for igual ao maiorPeso
-        if (idx == qtdClasses) idx = qtdClasses - 1;
+    #pragma omp parallel for
+    for (int i = 0; i < N; i++) {
+        int idx = (int)((estaturas[i] - menorEstatura) / intervaloEstatura);
+        if (idx == qtdClasses) idx = qtdClasses - 1; // protege limite superior
+        #pragma omp atomic
         freqEst[idx]++;
     }
 
     // frequências de peso
-    for (double peso : pesos) {
-        int idx = (int)((peso - menorPeso) / intervaloPeso);
+    #pragma omp parallel for
+    for (int i = 0; i < N; i++) {
+        int idx = (int)((pesos[i] - menorPeso) / intervaloPeso);
         if (idx == qtdClasses) idx = qtdClasses - 1;
+        #pragma omp atomic
         freqPeso[idx]++;
     }
 
